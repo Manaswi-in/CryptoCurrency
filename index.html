@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login / Register</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e3a8a, #9333ea);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .title {
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      text-align: center;
+      color: #1e40af;
+    }
+
+    .toggle-btns {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .toggle-btns button {
+      flex: 1;
+      padding: 0.6rem;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      border-radius: 0.5rem;
+      background-color: rgba(255, 255, 255, 0.2);
+      transition: background-color 0.3s;
+    }
+
+    .toggle-btns .active {
+      background-color: #2563eb;
+      color: #fff;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input {
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #cccccc;
+      border-radius: 0.5rem;
+    }
+
+    .submit-btn {
+      background-color: #2563eb;
+      color: rgb(255, 255, 255);
+      padding: 0.75rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .submit-btn:hover {
+      background-color: #1d4ed8;
+    }
+
+    .forgot {
+      text-align: right;
+      font-size: 0.85rem;
+      color: #193166;
+      cursor: pointer;
+      margin-top: -0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    #terms {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+    }
+
+    .toast {
+      padding: 12px 20px;
+      margin-top: 10px;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      animation: fadein 0.3s, fadeout 0.3s 3.7s;
+    }
+
+    .toast.success { background-color: #22c55e; }
+    .toast.error { background-color: #ef4444; }
+    .toast.info { background-color: #3b82f6; }
+
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeout {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1 class="title" id="form-title">Login to Your Account</h1>
+
+    <div class="toggle-btns">
+      <button id="login-btn" class="active">Login</button>
+      <button id="register-btn">Register</button>
+    </div>
+
+    <form id="auth-form">
+      <div id="name-phone-fields" style="display: none;">
+        <input type="text" class="input" placeholder="Full Name" id="fullname"/>
+        <input type="tel" class="input" placeholder="Phone Number" id="phone"/>
+      </div>
+
+      <input type="email" class="input" placeholder="Email Address" id="email" required />
+      <input type="password" class="input" placeholder="Password" id="password" required />
+
+      <div id="terms" style="display: none;">
+        <label>
+          <input type="checkbox" id="agree" /> I agree to the Terms and Conditions
+        </label>
+      </div>
+
+      <div class="forgot" id="forgot-password" style="display: block;">Forgot password?</div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">Login</button>
+    </form>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script>
+    const loginBtn = document.getElementById("login-btn");
+    const registerBtn = document.getElementById("register-btn");
+    const namePhoneFields = document.getElementById("name-phone-fields");
+    const formTitle = document.getElementById("form-title");
+    const submitBtn = document.getElementById("submit-btn");
+    const terms = document.getElementById("terms");
+    const forgotPassword = document.getElementById("forgot-password");
+    const toastContainer = document.getElementById("toast-container");
+
+    let isLogin = true;
+
+    loginBtn.addEventListener("click", () => {
+      isLogin = true;
+      updateForm();
+    });
+
+    registerBtn.addEventListener("click", () => {
+      isLogin = false;
+      updateForm();
+    });
+
+    function updateForm() {
+      loginBtn.classList.toggle("active", isLogin);
+      registerBtn.classList.toggle("active", !isLogin);
+      formTitle.innerText = isLogin ? "Login to Your Account" : "Create a New Account";
+      namePhoneFields.style.display = isLogin ? "none" : "block";
+      terms.style.display = isLogin ? "none" : "block";
+      forgotPassword.style.display = isLogin ? "block" : "none";
+      submitBtn.innerText = isLogin ? "Login" : "Register";
+    }
+
+    function showToast(message, type = 'info') {
+      const toast = document.createElement("div");
+      toast.className = `toast ${type}`;
+      toast.innerText = message;
+      toastContainer.appendChild(toast);
+      setTimeout(() => {
+        toast.remove();
+      }, 4000);
+    }
+
+    document.getElementById("auth-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      if (!isLogin && !document.getElementById("agree").checked) {
+        showToast("You must agree to the terms and conditions.", "error");
+        return;
+      }
+
+      const payload = {
+        name: document.getElementById("fullname")?.value,
+        phone: document.getElementById("phone")?.value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value,
+      };
+
+      const endpoint = isLogin ? "/api/login" : "/api/register";
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await res.json();
+
+        if (!res.ok) {
+          showToast(result.message || "Something went wrong", "error");
+          return;
+        }
+
+        localStorage.setItem("token", result.token);
+        showToast(`${isLogin ? "Logged in" : "Registered"} successfully`, "success");
+
+        setTimeout(() => {
+          window.location.href = "/dashboard.html";
+        }, 1500);
+
+      } catch (err) {
+        console.error(err);
+        showToast("Network error. Try again later.", "error");
+      }
+    });
+  </script>
+
+</body>
+</html>
