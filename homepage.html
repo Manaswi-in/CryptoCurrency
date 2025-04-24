@@ -1,54 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
-    <style>
-        body{
-            padding:30px;
-            background:linear-gradient(to right, #e2e2e2, #c9d6ff);
-        }
-        h1{
-            text-align:center;
-
-        }
-        button{
-            color:blueviolet;
-            background-color:#c9d6ff;
-            padding:5px;
-            border-radius:5px;
-            font-size:1rem;
-            font-weight:bold;
-            border:none;
-        }
-        button:hover{
-            text-decoration: underline;
-            color:blue;
-        }
-        button, div{
-            margin-left:15%;
-            font-size:20px;
-            padding:10px;
-        }
-        div{
-            font-weight:400;
-            color:rgb(12,11,11);
-
-        }
-        span{
-            font-weight:600;
-            font-size:22px;
-            color:black;
-        }
-    </style>
-    <script type="module" src="./homepage.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crypto Swap</title>
+  <link rel="stylesheet" href="homepage.css" />
 </head>
 <body>
-    <h1>Cryptocurrency Exchange Platform</h1>
-    <div>First Name: <span id="loggedUserFName"></span></div>
-    <div>Last Name: <span id="loggedUserLName"></span></div>
-    <div>Email: <span id="loggedUserEmail"></span></div>
-    <button id="logout">Logout</button>
+  <header>
+    <h1 class="logo">Crypto Swap</h1>
+    <div class="top-info">
+      <span>Total Balance: <strong>$75383.8400</strong></span>
+      <span>BTC: <strong>0.8223</strong></span>
+      <span>ETH: <strong>1.2535</strong></span>
+      <span>XRP: <strong>200.5426</strong></span>
+      <span>OP: <strong>265.5673</strong></span>
+      <span>Ape: <strong>7679.5673</strong></span>
+    </div>
+  </header>
+
+  <main class="exchange-box">
+    <div class="crypto-box">
+      <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=026" alt="BTC" class="crypto-icon"/>
+      <select>
+        <option>BTC</option>
+        <option>ETH</option>
+      </select>
+      <input type="text" value="1.0000"/>
+    </div>
+
+    <div class="arrow">⇄</div>
+
+    <div class="crypto-box">
+      <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png?v=026" alt="ETH" class="crypto-icon"/>
+      <select>
+        <option>ETH</option>
+        <option>BTC</option>
+      </select>
+      <input type="text" value="19.6500"/>
+    </div>
+
+    <div class="rules">
+      <input type="checkbox" checked /> Accept rules
+    </div>
+
+    <button class="exchange-btn">Exchange</button>
+  </main>
+
+  <footer class="price-board">
+    <div>BTC <span>$69174</span></div>
+    <div>ETH <span>$3521.01</span></div>
+    <div>XRP <span>$0.624242</span></div>
+    <div>OP <span>$3.13</span></div>
+    <div>APE <span>$1.71</span></div>
+  </footer>
 </body>
 </html>
